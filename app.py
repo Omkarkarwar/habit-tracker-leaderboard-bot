@@ -8,6 +8,23 @@ API_URL = f"https://api.telegram.org/bot{TOKEN}"
 
 app = Flask(__name__)
 
+# Set the webhook for your bot
+WEBHOOK_URL = "https://habit-tracker-leaderboard-bot.onrender.com"  # Correct URL
+webhook_set_url = f"https://api.telegram.org/bot{TOKEN}/setWebhook?url={WEBHOOK_URL}"
+response = requests.get(webhook_set_url)
+
+# Check if setting the webhook was successful
+if response.status_code == 200:
+    print("Webhook set successfully!")
+else:
+    print("Failed to set webhook")
+
+# Function to send a message
+def send_message(chat_id, text):
+    url = f"{API_URL}/sendMessage"
+    payload = {"chat_id": chat_id, "text": text, "parse_mode": "Markdown"}
+    requests.post(url, json=payload)
+
 # Function to send a message
 def send_message(chat_id, text):
     url = f"{API_URL}/sendMessage"
